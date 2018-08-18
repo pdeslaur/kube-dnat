@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-dnat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-dnat
+  template:
+    metadata:
+      labels:
+        app: kube-dnat
+    spec:
+      containers:
+      - name: kube-dnat
+        image: gcr.io/flowing-digit-843/kube-dnat
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 10Mi
