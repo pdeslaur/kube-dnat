@@ -26,21 +26,28 @@ func main() {
 		panic(err.Error())
 	}
 
-	fmt.Println("Hello chains!")
-	chains, err := ipt.ListChains("nat")
+	fmt.Println("Configuring masquerade")
+	err = ipt.Append("nat", "POSTROUTING", "-o", "eth0", "-j", "MASQUERADE")
 	if err != nil {
 		panic(err.Error())
 	}
-	for _, chain := range chains {
-		fmt.Println(chain)
-	}
 
 	for {
-		pods, err := clientset.CoreV1().Pods("").List(metav1.ListOptions{})
+		// Configure minecraft
+		service, _ := clientset.CoreV1().Services("philde").Get("minecraft", metav1.GetOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
-		fmt.Printf("There are %d pods in the cluster\n", len(pods.Items))
+		fmt.Printf("Minecraft IP is %s\n", service.Spec.ClusterIP)
+		err = ipt.AppendUnique("nat", "PREROUTING", "-p", "tcp", "-i", "eth0", "--dport", "25565", "-j", "DNAT", "--to-destination", service.Spec.ClusterIP)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		rules, _ := ipt.List("nat", "PREROUTING")
+		for _, rule := range rules {
+			fmt.Println(rule)
+		}
 
 		time.Sleep(10 * time.Second)
 	}

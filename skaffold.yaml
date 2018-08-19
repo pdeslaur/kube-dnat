@@ -1,9 +1,0 @@
-apiVersion: skaffold/v1alpha2
-kind: Config
-build:
-  artifacts:
-  - imageName: gcr.io/flowing-digit-843/kube-dnat
-deploy:
-  kubectl:
-    manifests:
-      - deployment.yaml

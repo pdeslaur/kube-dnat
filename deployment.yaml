@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: kube-dnat
-        image: gcr.io/flowing-digit-843/kube-dnat
+        image: github.com/pdeslaur/kube-dnat
         securityContext:
           privileged: true
         resources:
