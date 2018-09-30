@@ -1,5 +1,5 @@
-[submodule "vendor/code-generator"]
-	path = vendor/code-generator
+[submodule "vendor/k8s/code-generator"]
+	path = vendor/k8s/code-generator
 	url = git@github.com:kubernetes/code-generator.git
 [submodule "vendor/k8s.io/client-go"]
 	path = vendor/k8s.io/client-go
