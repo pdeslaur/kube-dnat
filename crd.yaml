@@ -1,0 +1,82 @@
+---
+
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: portaddresstranslations.k8s.deslauriers.io
+spec:
+  group: k8s.deslauriers.io
+  version: v1beta1
+  scope: Namespaced
+  names:
+    plural: portaddresstranslations
+    singular: portaddresstranslation
+    kind: PortAddressTranslation
+    shortNames:
+    - pat
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kube-pat
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-pat
+  namespace: kube-pat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-pat
+  template:
+    metadata:
+      labels:
+        app: kube-pat
+    spec:
+      containers:
+      - name: kube-pat
+        image: github.com/pdeslaur/kube-pat
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 10Mi
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: kube-pat-tcp
+  namespace: kube-pat
+spec:
+  selector:
+    app: kube-pat
+  ports:
+  - protocol: TCP
+    port: 25565
+    targetPort: 25565
+  type: LoadBalancer
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: kube-pat-udp
+  namespace: kube-pat
+spec:
+  selector:
+    app: kube-pat
+  ports:
+  - protocol: UDP
+    port: 34197
+    targetPort: 34197
+  type: LoadBalancer

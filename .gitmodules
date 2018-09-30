@@ -1,0 +1,15 @@
+[submodule "vendor/code-generator"]
+	path = vendor/code-generator
+	url = git@github.com:kubernetes/code-generator.git
+[submodule "vendor/k8s.io/client-go"]
+	path = vendor/k8s.io/client-go
+	url = git@github.com:kubernetes/client-go.git
+[submodule "vendor/k8s.io/apimachinery"]
+	path = vendor/k8s.io/apimachinery
+	url = git@github.com:kubernetes/apimachinery.git
+[submodule "vendor/github.com/coreos/go-iptables"]
+	path = vendor/github.com/coreos/go-iptables
+	url = git@github.com:coreos/go-iptables.git
+[submodule "vendor/k8s.io/api"]
+	path = vendor/k8s.io/api
+	url = git@github.com:kubernetes/api.git
