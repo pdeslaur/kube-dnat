@@ -22,7 +22,7 @@ type PortAddressTranslationSpec struct {
 	Service string `json:"service"`
 
 	// REQUIRED: A valid non-negative integer port number.
-	Port int `json:"port"`
+	Port int32 `json:"port"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

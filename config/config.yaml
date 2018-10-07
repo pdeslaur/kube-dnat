@@ -30,7 +30,13 @@ metadata:
   name: kube-pat
   namespace: kube-pat
 spec:
-  replicas: 1
+  replicas: 4
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 25%
+    type: RollingUpdate
   selector:
     matchLabels:
       app: kube-pat
@@ -41,7 +47,7 @@ spec:
     spec:
       containers:
       - name: kube-pat
-        image: github.com/pdeslaur/kube-pat
+        image: github.com/pdeslaur/kube-pat/cmd/forwarder
         securityContext:
           privileged: true
         resources:
@@ -60,9 +66,9 @@ spec:
   selector:
     app: kube-pat
   ports:
-  - protocol: TCP
-    port: 25565
-    targetPort: 25565
+  - name: keepalive
+    protocol: TCP
+    port: 8080
   type: LoadBalancer
 
 ---
@@ -76,7 +82,7 @@ spec:
   selector:
     app: kube-pat
   ports:
-  - protocol: UDP
-    port: 34197
-    targetPort: 34197
+  - name: keepalive
+    protocol: UDP
+    port: 8080
   type: LoadBalancer
