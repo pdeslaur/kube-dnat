@@ -1,7 +1,3 @@
-[submodule "vendor/k8s/code-generator"]
-	path = vendor/k8s/code-generator
-	url = git@github.com:kubernetes/code-generator.git
-	ignore = untracked
 [submodule "vendor/k8s.io/client-go"]
 	path = vendor/k8s.io/client-go
 	url = git@github.com:kubernetes/client-go.git
@@ -18,3 +14,6 @@
 	path = vendor/k8s.io/api
 	url = git@github.com:kubernetes/api.git
 	ignore = untracked
+[submodule "vendor/k8s.io/code-generator"]
+	path = vendor/k8s.io/code-generator
+	url = git@github.com:kubernetes/code-generator.git
