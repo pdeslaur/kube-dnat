@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	corev1 "k8s.io/api/core/v1"
+
 	clientset "github.com/pdeslaur/kube-pat/pkg/client/clientset/versioned"
 	informers "github.com/pdeslaur/kube-pat/pkg/client/informers/externalversions"
 	"github.com/pdeslaur/kube-pat/pkg/forwarder"
@@ -39,10 +41,9 @@ func main() {
 	coreServiceInformer := kubeInformerFactory.Core().V1().Services()
 
 	opt := forwarder.ControllerOptions{
-		UDPService:    *udpService,
-		TCPService:    *tcpService,
-		PatClientSet:  pat,
-		KubeClientSet: kube,
+		LoadBalancersName: map[corev1.Protocol]string{corev1.ProtocolUDP: *udpService, corev1.ProtocolTCP: *tcpService},
+		PatClientSet:      pat,
+		KubeClientSet:     kube,
 	}
 	ctrl := forwarder.NewController(opt, patInformer, coreServiceInformer)
 
